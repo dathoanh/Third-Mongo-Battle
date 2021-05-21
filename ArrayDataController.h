@@ -3,6 +3,7 @@
 //  KTLT ASS 3
 //
 //  Created by Nhân Nguyễn on 17/05/2021.
+//  Update print and setHPat function on 21/05/2021.
 //
 
 // Students can remove the final initial return of the functions
@@ -24,7 +25,7 @@ void print(Array& array){
     for(int i=0;i<array.size;i++){
         std::cout << array.arr[i].ID << " ";
     }
-    std::cout <<"]";
+    std::cout <<"]" << endl;
 }
 
 void initArray (Array& array, int cap){
@@ -99,7 +100,7 @@ int getHPAt(Array& array, int pos){
     return -1;
 }
 
-bool setHPAt(Array& list, int HP, int pos){
+bool setHPAt(Array& array, int HP, int pos){
     //Set value of HP at pos
     //TODO
     //Return true if set successfully, false otherwise
