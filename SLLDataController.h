@@ -14,7 +14,9 @@
 #include <vector>
 #include <string>
 
-SoldierNode* getSoldier(const SLinkedList& list, const int pos);
+// Own function prototypes
+
+SoldierNode* getPrevSoldier(const SLinkedList& list, const int pos);
 
 //Functions used to manage Singly Linked List
 void print(SLinkedList& list){
@@ -45,18 +47,18 @@ bool insertAt (SLinkedList& list, Soldier element, int pos){
     }
     else
     {
-        SoldierNode *prevNode, *currNode;
-        currNode = list.head;
-        int index = 0;
-        while(index < pos)
+        SoldierNode *prevNode;
+        if(pos == 0)
         {
-            index++;
-            prevNode = currNode;
-            currNode = currNode->next;
+            newNode->next = list.head;
+            list.head = newNode;
         }
-
-        prevNode->next = newNode;
-        newNode->next = currNode;
+        else
+        {
+            prevNode = getPrevSoldier(list, pos);
+            newNode->next = prevNode->next;
+            prevNode->next = newNode;
+        }
 
     }
 
@@ -73,20 +75,16 @@ bool removeAt (SLinkedList& list, int idx){
     if(idx < 0 || idx >= list.size) return false;
 
     SoldierNode *prevNode, *currNode;
-    currNode = list.head;
-    int index = 0;
+
     if(idx == 0)
     {
+        currNode = list.head;
         list.head = currNode->next;
     }
-    else
+    else 
     {
-        while(index < idx)
-        {
-            index++;
-            prevNode = currNode;
-            currNode = currNode->next;
-        }
+        prevNode = getPrevSoldier(list, idx);
+        currNode = prevNode->next;
         prevNode->next = currNode->next;
     }
     
@@ -203,7 +201,14 @@ string getIDAt(SLinkedList& list, int pos){
     if(pos < 0 || pos >= list.size) return "-1";
 
     SoldierNode *tempNode;
-    tempNode = getSoldier(list, pos);
+    if(pos == 0)
+    {
+        tempNode = list.head;
+    }
+    else
+    {
+        tempNode = getPrevSoldier(list, pos)->next;
+    }
     
     return tempNode->data.ID;
 }
@@ -215,7 +220,14 @@ int getHPAt(SLinkedList& list, int pos){
     if(pos < 0 || pos >= list.size) return -1;
 
     SoldierNode *tempNode;
-    tempNode = getSoldier(list, pos);
+    if(pos == 0)
+    {
+        tempNode = list.head;
+    }
+    else
+    {
+        tempNode = getPrevSoldier(list, pos)->next;
+    }
     
     return tempNode->data.HP;
 }
@@ -228,7 +240,14 @@ bool setHPAt(SLinkedList& list, int HP, int pos){
     if(pos < 0 || pos >= list.size) return false;
 
     SoldierNode *tempNode;
-    tempNode = getSoldier(list, pos);
+    if(pos == 0)
+    {
+        tempNode = list.head;
+    }
+    else
+    {
+        tempNode = getPrevSoldier(list, pos)->next;
+    }
     tempNode->data.HP = HP;
 
     return true;
@@ -247,13 +266,13 @@ bool contains (SLinkedList& list, Soldier soldier){
 }
 
 //You can write your own functions here
-SoldierNode* getSoldier(const SLinkedList& list, const int pos)
+SoldierNode* getPrevSoldier(const SLinkedList& list, const int pos)
 {
     SoldierNode *retNode;
     retNode = list.head;
     int index = 0;
 
-    while(index < pos)
+    while(index < pos - 1)
     {
         index++;
         retNode = retNode->next;
