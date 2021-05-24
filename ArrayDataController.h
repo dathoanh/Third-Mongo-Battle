@@ -2,7 +2,7 @@
 //  ArrayDataController.h
 //  KTLT ASS 3
 //
-//  Completed by Đào Hoành Đạt on 22/05/2021.
+//  Completed by Đào Hoành Đạt on 24/05/2021.
 //  Update print and setHPat function on 21/05/2021.
 //
 
@@ -19,6 +19,8 @@
 void ensureCapacity(Array& array, int newCap);
 bool operator==(const Soldier firstSoldier, const Soldier secondSoldier);
 void copySoldier(Soldier *newArr, const Soldier *oldArr, size_t oldSize);
+void shiftRight(Soldier *arr, const size_t firstIdx, const size_t lastIdx);
+void shiftLeft(Soldier *arr, const size_t firstIdx, const size_t lastIdx);
 
 //Functions used to manage Array
 void print(Array& array){
@@ -52,23 +54,16 @@ bool insertAt(Array& array, Soldier element, int pos){
         return false;
     }
 
-    int index = array.size;
-    while(index > pos)
-    {
-        array.arr[index] = array.arr[index - 1];
-        index--;
-    }
-
-    array.arr[pos] = element;
-    
-    array.size++;
-    
     if(array.size == array.capacity)
     {
         int newCap = (array.capacity * 3) / 2 + 1;
         ensureCapacity(array, newCap);
     }
 
+    shiftRight(array.arr, pos, array.size);
+
+    array.arr[pos] = element;
+    array.size++;
     return true;
 }
 
@@ -82,11 +77,7 @@ bool removeAt (Array& array, int idx){
         return false;
     }
 
-    while(idx < array.size)
-    {
-        array.arr[idx] = array.arr[idx + 1];
-        idx++;
-    }
+    shiftLeft(array.arr, idx, array.size);
     
     array.size--;
     return true;
@@ -103,11 +94,7 @@ bool removeFirstItemWithHP (Array& array, int HP){
     {
         if(array.arr[i].HP == HP)
         {
-            while(i < array.size)
-            {
-                array.arr[i] = array.arr[i + 1];
-                i++;
-            }
+            shiftLeft(array.arr, i, array.size);
             array.size--;
             return true;
         }
@@ -205,7 +192,7 @@ void clear(Array& array){
     //Delete all of the elements in array
     //TODO
 
-    if(array.size == 0) return;
+    if(array.arr == NULL) return;
 
     delete []array.arr;
     array.arr = NULL;
@@ -248,6 +235,22 @@ void copySoldier(Soldier *newArr, const Soldier *oldArr, size_t oldSize)
     for(size_t i = 0; i < oldSize; i++)
     {
         newArr[i] = oldArr[i];
+    }
+}
+
+void shiftLeft(Soldier *arr, const size_t firstIdx, const size_t lastIdx)
+{
+    for(size_t i = firstIdx; i < lastIdx - 1; i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+}
+
+void shiftRight(Soldier *arr, const size_t firstIdx, const size_t lastIdx)
+{
+    for(size_t i = lastIdx; i > firstIdx; i--)
+    {
+        arr[i] = arr[i - 1];
     }
 }
 
