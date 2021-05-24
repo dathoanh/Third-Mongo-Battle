@@ -14,9 +14,10 @@
 #include <vector>
 #include <string>
 
-// Own function prototypes
+// Function prototypes
 
 SoldierNode* getPrevSoldier(const SLinkedList& list, const int pos);
+bool operator==(const SoldierNode *firstSoldier, const Soldier secondSoldier);
 
 //Functions used to manage Singly Linked List
 void print(SLinkedList& list){
@@ -142,13 +143,9 @@ int indexOf(SLinkedList& list, Soldier soldier){
     int index = 0;
     while(tempNode != NULL)
     {
-        if(tempNode->data.ID == soldier.ID)
+        if(tempNode == soldier)
         {
-            if( tempNode->data.HP == soldier.HP &&
-                tempNode->data.isSpecial == soldier.isSpecial)
-                {
-                    return index;
-                }
+            return index;
         }
         index++;
         tempNode = tempNode->next;
@@ -280,6 +277,19 @@ SoldierNode* getPrevSoldier(const SLinkedList& list, const int pos)
 
     return retNode;
 }
+
+bool operator==(const SoldierNode *firstSoldier, const Soldier secondSoldier)
+{
+    if( firstSoldier->data.ID == secondSoldier.ID &&
+        firstSoldier->data.HP == secondSoldier.HP &&
+        firstSoldier->data.isSpecial == secondSoldier.isSpecial)
+        {
+            return true;
+        }
+    
+    return false;
+}
+
 //End your own functions
 
 #endif /* SLLDataControler_h */
