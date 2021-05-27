@@ -90,6 +90,18 @@ Soldier front(SLinkedList& list){
 
 void reverse(SLinkedList& list){
     //TODO
+
+    SoldierNode *tempHead, *tempNode;
+    tempHead = list.head;
+    list.head = NULL;
+    while(tempHead != NULL)
+    {
+        tempNode = tempHead;
+        tempHead = tempHead->next;
+        
+        tempNode->next = list.head;
+        list.head = tempNode;
+    }
 }
 
 //////////////////////////////////////////////////////
