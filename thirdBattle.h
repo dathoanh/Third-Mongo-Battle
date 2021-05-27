@@ -59,20 +59,29 @@ bool enqueue(SLinkedList& list, Soldier soldier){
     //Return true if enqueue successfully, false otherwise
     //TODO
     
-    return false;
+    return insertAt(list, soldier, list.size);
 }
 
 bool dequeue(SLinkedList& list){
     //Return true if dequeue successfully, false otherwise
     //TODO
     
-    return false;
+    return removeAt(list, 0);
 }
 
 Soldier front(SLinkedList& list){
     //TODO
     
-    return Soldier();//Return this if cannot get front
+    if(list.size == 0)
+    {
+        return Soldier();
+    }
+    else 
+    {
+        return list.head->data;
+    }
+    
+    // return Soldier();//Return this if cannot get front
 }
 
 //////////////////////////////////////////////////////
