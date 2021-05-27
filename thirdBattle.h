@@ -21,21 +21,34 @@
 bool push(Array& array, Soldier soldier){
     //Return true if push successfully, false otherwise
     //TODO
+    if(array.arr == NULL)
+    {
+        initArray(array, 3);
+    }
     
-    return false;
+    return insertAt(array, soldier, array.size);
 }
 
 bool pop(Array& array){
     //Return true if pop successfully, false otherwise
     //TODO
     
-    return false;
+    return removeAt(array, array.size - 1);
 }
 
 Soldier top(Array& array){
     //TODO
+
+    if(array.size == 0)
+    {
+        return Soldier();
+    }
+    else
+    {
+        return array.arr[array.size - 1];
+    }
     
-    return Soldier();//return this if cannot get top
+    // return Soldier();//return this if cannot get top
 }
 
 //////////////////////////////////////////////////////
