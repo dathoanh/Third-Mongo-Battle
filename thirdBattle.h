@@ -14,6 +14,10 @@
 #include <vector>
 #include <string>
 
+// Function Prototypes
+bool operator<(const Soldier soldier1, const Soldier soldier2);
+SoldierNode* addNode(SoldierNode *head, SoldierNode *&newNode);
+
 //////////////////////////////////////////////////////
 /// TASK 1
 //////////////////////////////////////////////////////
@@ -98,7 +102,7 @@ void reverse(SLinkedList& list){
     {
         tempNode = tempHead;
         tempHead = tempHead->next;
-        
+
         tempNode->next = list.head;
         list.head = tempNode;
     }
@@ -110,11 +114,70 @@ void reverse(SLinkedList& list){
 
 SLinkedList merge(SLinkedList& list1, SLinkedList& list2){
     //TODO
+
+    SLinkedList retList;
+
+    while(list1.head != NULL || list2.head != NULL)
+    {
+        if(list1.head == NULL)
+        {
+            retList.head = addNode(retList.head, list2.head);
+        }
+        else if(list2.head == NULL)
+        {
+            retList.head = addNode(retList.head, list1.head);
+        }
+        else
+        {
+            if(list1.head->data < list2.head->data)
+            {
+                retList.head = addNode(retList.head, list1.head);
+            }
+            else
+            {
+                retList.head = addNode(retList.head, list2.head);
+            }
+        }
+        retList.size++;
+    }
+
+    reverse(retList);
     
-    return SLinkedList();
+    return retList;
 }
 
 //You can write your own functions here
+bool operator<(const Soldier soldier1, const Soldier soldier2)
+{
+    if(soldier1.HP < soldier2.HP)
+    {
+        return true;   
+    }
+    else if(soldier1.HP == soldier2.HP)
+    {
+        if(soldier1.isSpecial == soldier2.isSpecial)
+        {
+            if(soldier1.ID < soldier2.ID)
+            {
+                return true;
+            }
+        }
+        else if(soldier1.isSpecial == false)
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+SoldierNode* addNode(SoldierNode *head, SoldierNode *&newNode)
+{
+    SoldierNode *tempNode = newNode;
+    newNode = newNode->next;
+    tempNode->next = head;
+    return tempNode;
+}
 
 //End your own functions
 
